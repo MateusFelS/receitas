@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "355912082670",
+    "project_id": "receitas-qqjv5i",
+    "storage_bucket": "receitas-qqjv5i.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355912082670:android:1a17dd8a3feaba3a5e3fff",
+        "android_client_info": {
+          "package_name": "com.example.teste_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT2yNSmBlr4RsfZ1kFdjicuviWccyGEzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
