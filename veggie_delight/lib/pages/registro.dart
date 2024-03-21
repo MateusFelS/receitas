@@ -58,88 +58,91 @@ class _RegistroState extends State<Registro> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Card(
-            elevation: 5,
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Crie sua conta',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      foreground: Paint()..shader = linearGradient,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage('images/registro_icon.png'),
-                        fit: BoxFit.contain,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Card(
+              elevation: 5,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Crie sua conta',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        foreground: Paint()..shader = linearGradient,
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _nomeController,
-                    decoration: InputDecoration(
-                      labelText: 'Nome',
-                    ),
-                  ),
-                  TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                    ),
-                  ),
-                  TextField(
-                    controller: _senhaController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      _signup();
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => Login(),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: AssetImage('images/registro_icon.png'),
+                          fit: BoxFit.contain,
                         ),
-                      );
-                    },
-                    child: Text(
-                      'Finalizar Registro',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 27, 156, 133),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
                       ),
-                      minimumSize: Size(MediaQuery.of(context).size.width * .9,
-                          50), // tamanho mínimo
                     ),
-                  ),
-                ],
+                    SizedBox(height: 10),
+                    TextField(
+                      controller: _nomeController,
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                      ),
+                    ),
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                      ),
+                    ),
+                    TextField(
+                      controller: _senhaController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Senha',
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                    SizedBox(height: 16.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        _signup();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => Login(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Finalizar Registro',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 27, 156, 133),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        minimumSize: Size(
+                            MediaQuery.of(context).size.width * .9,
+                            50), // tamanho mínimo
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

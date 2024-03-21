@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SobreNos extends StatelessWidget {
   @override
@@ -73,6 +74,42 @@ class SobreNos extends StatelessWidget {
                           fontSize: 14,
                         ),
                       ),
+                      SizedBox(height: 20),
+                      Text(
+                        'Contatos',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 27, 156, 133),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Row(
+                          children: [
+                            Icon(
+                              Icons.tablet_android_rounded,
+                              color: Color.fromARGB(255, 27, 156, 133),
+                            ),
+                            Text(
+                              'Cel: (14) 997692248',
+                            ),
+                          ],
+                        ),
+                        onPressed: () => _launchURL('tel:14997692248'),
+                      ),
+                      IconButton(
+                        icon: Row(
+                          children: [
+                            Icon(
+                              Icons.computer,
+                              color: Color.fromARGB(255, 27, 156, 133),
+                            ),
+                            Text('GitHub: MateusFels')
+                          ],
+                        ),
+                        onPressed: () =>
+                            _launchURL('https://github.com/MateusFelS'),
+                      )
                     ],
                   ),
                 ),
@@ -82,5 +119,13 @@ class SobreNos extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Não foi possível abrir o link: $url';
+    }
   }
 }

@@ -85,54 +85,69 @@ class _AdicionarReceitaState extends State<AdicionarReceita> {
                 ),
                 SizedBox(height: 10),
                 Text('Tipo de Receita'),
-                DropdownButton<String>(
-                  value: _tipoReceita,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _tipoReceita = newValue!;
-                    });
-                  },
-                  items: <String>['Vegana', 'Vegetariana']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    DropdownButton<String>(
+                      value: _tipoReceita,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _tipoReceita = newValue!;
+                        });
+                      },
+                      items: <String>['Vegana', 'Vegetariana']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 10),
                 Text('Dificuldade'),
-                DropdownButton<String>(
-                  value: _selectedDificuldade,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedDificuldade = newValue!;
-                    });
-                  },
-                  items: <String>['Fácil', 'Médio', 'Difícil']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    DropdownButton<String>(
+                      value: _selectedDificuldade,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedDificuldade = newValue!;
+                        });
+                      },
+                      items: <String>['Fácil', 'Médio', 'Difícil']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 10),
                 Text('Nota'),
-                DropdownButton<String>(
-                  value: _selectedNota,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedNota = newValue!;
-                    });
-                  },
-                  items: <String>['1', '2', '3', '4', '5']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    DropdownButton<String>(
+                      value: _selectedNota,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedNota = newValue!;
+                        });
+                      },
+                      items: <String>['1', '2', '3', '4', '5']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 10),
                 TextField(
