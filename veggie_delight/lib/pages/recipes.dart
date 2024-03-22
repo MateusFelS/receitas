@@ -1,10 +1,9 @@
 import 'package:VeggieDelight/pages/info_veganismo.dart';
+import 'package:VeggieDelight/pages/login.dart';
 import 'package:VeggieDelight/pages/sobre_nos.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:VeggieDelight/pages/lista_receitas.dart';
-import 'package:VeggieDelight/templates/pao_batata.dart';
-import 'package:VeggieDelight/templates/pizza.dart';
-import 'package:VeggieDelight/templates/bauru.dart';
 
 Shader linearGradient = LinearGradient(
   colors: <Color>[
@@ -22,10 +21,11 @@ class Recipes extends StatefulWidget {
   State<Recipes> createState() => _RecipesState();
 }
 
-enum TipoFiltro { SobreNos, InfoVeg }
+enum TipoFiltro { SobreNos, InfoVeg, Sair }
 
 class _RecipesState extends State<Recipes> {
   TipoFiltro _filtroSelecionado = TipoFiltro.SobreNos;
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void _onPopupMenuItemSelected(TipoFiltro result) {
     switch (result) {
@@ -39,6 +39,13 @@ class _RecipesState extends State<Recipes> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => InfoVeganismo()),
+        );
+        break;
+      case TipoFiltro.Sair:
+        _auth.signOut();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
         );
         break;
     }
@@ -58,22 +65,38 @@ class _RecipesState extends State<Recipes> {
         ),
         backgroundColor: Color.fromARGB(255, 27, 156, 133),
         actions: [
-          PopupMenuButton<TipoFiltro>(
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.white,
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: PopupMenuButton<TipoFiltro>(
+              icon: Row(
+                children: [
+                  Icon(
+                    Icons.keyboard_double_arrow_right,
+                    color: Colors.white,
+                  ),
+                  Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+              onSelected: _onPopupMenuItemSelected,
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<TipoFiltro>>[
+                PopupMenuItem<TipoFiltro>(
+                  value: TipoFiltro.SobreNos,
+                  child: Text('Sobre Nós'),
+                ),
+                PopupMenuItem<TipoFiltro>(
+                  value: TipoFiltro.InfoVeg,
+                  child: Text('InfoVeg'),
+                ),
+                PopupMenuItem<TipoFiltro>(
+                  value: TipoFiltro.Sair,
+                  child: Text('Sair'),
+                ),
+              ],
             ),
-            onSelected: _onPopupMenuItemSelected,
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<TipoFiltro>>[
-              PopupMenuItem<TipoFiltro>(
-                value: TipoFiltro.SobreNos,
-                child: Text('Sobre Nós'),
-              ),
-              PopupMenuItem<TipoFiltro>(
-                value: TipoFiltro.InfoVeg,
-                child: Text('InfoVeg'),
-              ),
-            ],
           ),
         ],
       ),
@@ -126,14 +149,14 @@ class _RecipesState extends State<Recipes> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        buildRecipeContainer('Pão de Batata',
-                            'images/pao_batata.jpg', PaoBatata()),
+                        buildRecipeContainer(
+                            'Pão de Batata', 'images/pao_batata.jpg'),
                         SizedBox(width: 10),
                         buildRecipeContainer(
-                            'Pizza Vegana', 'images/pizza.jpg', Pizza()),
+                            'Pizza Vegana', 'images/pizza.jpg'),
                         SizedBox(width: 10),
                         buildRecipeContainer(
-                            'Bauru Vegano', 'images/bauru.jpg', Bauru()),
+                            'Bauru Vegano', 'images/bauru.jpg'),
                       ],
                     ),
                   ),
@@ -191,13 +214,8 @@ class _RecipesState extends State<Recipes> {
     );
   }
 
-  Widget buildRecipeContainer(
-      String recipeName, String imagePath, Widget route) {
+  Widget buildRecipeContainer(String recipeName, String imagePath) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => route),
-      ),
       child: Container(
         height: 150,
         width: 150,
@@ -212,13 +230,17 @@ class _RecipesState extends State<Recipes> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
+              width: double.infinity, // Para ocupar a largura total
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              color: Colors.black.withOpacity(0.5), // Cor preta com opacidade
               child: Text(
                 recipeName,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Colors.white, // Alterar para branco
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
           ],

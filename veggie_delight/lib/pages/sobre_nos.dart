@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -91,6 +93,7 @@ class SobreNos extends StatelessWidget {
                               color: Color.fromARGB(255, 27, 156, 133),
                               size: 14,
                             ),
+                            SizedBox(width: 5),
                             Text(
                               'Cel: (14) 997692248',
                               style: TextStyle(
@@ -111,6 +114,7 @@ class SobreNos extends StatelessWidget {
                               color: Color.fromARGB(255, 27, 156, 133),
                               size: 14,
                             ),
+                            SizedBox(width: 5),
                             Text(
                               'GitHub: MateusFels',
                               style: TextStyle(

@@ -54,32 +54,36 @@ class _ListaReceitasState extends State<ListaReceitas> {
               color: Colors.white,
             ),
           ),
-          PopupMenuButton<TipoFiltro>(
-            icon: Icon(
-              Icons.filter_alt, // Ícone de três pontos
-              color: _filtroSelecionado != TipoFiltro.Todos
-                  ? Colors.white // Cor do ícone quando não está selecionado
-                  : Colors.white, // Cor do ícone quando selecionado
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: PopupMenuButton<TipoFiltro>(
+              icon: Icon(
+                Icons.filter_alt, // Ícone de três pontos
+                color: _filtroSelecionado != TipoFiltro.Todos
+                    ? Colors.white // Cor do ícone quando não está selecionado
+                    : Colors.white, // Cor do ícone quando selecionado
+              ),
+              onSelected: (TipoFiltro result) {
+                setState(() {
+                  _filtroSelecionado = result;
+                });
+              },
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<TipoFiltro>>[
+                PopupMenuItem<TipoFiltro>(
+                  value: TipoFiltro.Todos,
+                  child: Text('Todos'),
+                ),
+                PopupMenuItem<TipoFiltro>(
+                  value: TipoFiltro.Vegana,
+                  child: Text('Vegana'),
+                ),
+                PopupMenuItem<TipoFiltro>(
+                  value: TipoFiltro.Vegetariana,
+                  child: Text('Vegetariana'),
+                ),
+              ],
             ),
-            onSelected: (TipoFiltro result) {
-              setState(() {
-                _filtroSelecionado = result;
-              });
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<TipoFiltro>>[
-              PopupMenuItem<TipoFiltro>(
-                value: TipoFiltro.Todos,
-                child: Text('Todos'),
-              ),
-              PopupMenuItem<TipoFiltro>(
-                value: TipoFiltro.Vegana,
-                child: Text('Vegana'),
-              ),
-              PopupMenuItem<TipoFiltro>(
-                value: TipoFiltro.Vegetariana,
-                child: Text('Vegetariana'),
-              ),
-            ],
           ),
         ],
       ),
