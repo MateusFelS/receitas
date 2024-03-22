@@ -1,6 +1,6 @@
 # 🍏 VeggieDelight - App de Receitas
 
-### O aplicativo de receitas é uma plataforma interativa projetada para facilitar o compartilhamento e descoberta de novas receitas culinárias.
+### O VeggieDelight é uma plataforma interativa projetada para facilitar o compartilhamento e descoberta de novas receitas culinárias.
  
 ## 📱 Mobile App
 
@@ -9,7 +9,7 @@
 ### **Technologias usadas**
 ### • Dart: Programming language
 ### • Flutter: Framework
-### • PHP MySQL: DataBase
+### • Firebase: DataBase
 
 ## 📋 Pré requisitos para a instalação
 ### Para instalar e usar o aplicativo você precisa ter um celular Android ou iOS.
