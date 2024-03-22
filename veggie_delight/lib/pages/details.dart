@@ -224,48 +224,89 @@ class _DetailsState extends State<Details> {
                         ],
                       ),
                       Divider(
-                        color: Color.fromARGB(255, 77, 196, 168),
+                        color: Colors.black,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              'Comentários',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 77, 196, 168),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Container(
-                        height: 200,
+                        height: 250,
                         width: MediaQuery.of(context).size.width * 0.9,
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
+                          border: Border.all(
+                              color: Colors
+                                  .grey[400]!), // Alterando a cor da borda
                           borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(
+                                  0.3), // Adicionando uma sombra suave
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: Offset(0, 2), // Deslocamento da sombra
+                            ),
+                          ],
+                          color: Colors
+                              .white, // Alterando a cor de fundo para branco
                         ),
-                        child: Center(
-                          child: Text(
-                            'Nenhum comentário ainda, seja o primeiro!',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Expanded(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Digite seu comentário',
-                                  border: InputBorder.none,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 16),
-                                ),
+                            Icon(
+                              Icons
+                                  .chat_bubble_outline, // Adicionando um ícone de comentário
+                              size: 40,
+                              color: Colors.grey[600],
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Nenhum comentário ainda, seja o primeiro!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[600],
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {
-                                // Lógica para enviar o comentário
-                              },
-                              icon: Icon(Icons.send, color: Colors.black),
+                            SizedBox(height: 50),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.black26),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText: 'Digite seu comentário',
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.send, color: Colors.black),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),

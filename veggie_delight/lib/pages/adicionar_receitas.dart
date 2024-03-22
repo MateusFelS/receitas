@@ -161,7 +161,6 @@ class _AdicionarReceitaState extends State<AdicionarReceita> {
                   controller: _ingredientesController,
                   decoration: InputDecoration(
                     labelText: 'Ingredientes',
-                    labelStyle: TextStyle(fontSize: 14),
                   ),
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
@@ -170,7 +169,6 @@ class _AdicionarReceitaState extends State<AdicionarReceita> {
                   controller: _modoPreparoController,
                   decoration: InputDecoration(
                     labelText: "Modo de preparo",
-                    labelStyle: TextStyle(fontSize: 14),
                   ),
                   keyboardType: TextInputType.multiline,
                   maxLines: null,

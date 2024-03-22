@@ -89,9 +89,15 @@ class SobreNos extends StatelessWidget {
                             Icon(
                               Icons.tablet_android_rounded,
                               color: Color.fromARGB(255, 27, 156, 133),
+                              size: 14,
                             ),
                             Text(
                               'Cel: (14) 997692248',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
                             ),
                           ],
                         ),
@@ -103,8 +109,16 @@ class SobreNos extends StatelessWidget {
                             Icon(
                               Icons.computer,
                               color: Color.fromARGB(255, 27, 156, 133),
+                              size: 14,
                             ),
-                            Text('GitHub: MateusFels')
+                            Text(
+                              'GitHub: MateusFels',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
+                            ),
                           ],
                         ),
                         onPressed: () =>
