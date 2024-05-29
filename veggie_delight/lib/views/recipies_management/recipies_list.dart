@@ -1,8 +1,9 @@
+import 'package:VeggieDelight/widget/app_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:VeggieDelight/pages/details.dart';
-import 'package:VeggieDelight/pages/minhas_receitas.dart';
-import 'package:VeggieDelight/pages/adicionar_receitas.dart';
+import 'package:VeggieDelight/views/recipies_management/details.dart';
+import 'package:VeggieDelight/views/recipies_management/my_recipies.dart';
+import 'package:VeggieDelight/views/recipies_management/add_recipies.dart';
 
 Shader linearGradient = LinearGradient(
   colors: <Color>[
@@ -11,18 +12,18 @@ Shader linearGradient = LinearGradient(
   ],
 ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
-class ListaReceitas extends StatefulWidget {
+class RecipiesList extends StatefulWidget {
   final String idUsuario;
 
-  ListaReceitas({required this.idUsuario});
+  RecipiesList({required this.idUsuario});
 
   @override
-  State<ListaReceitas> createState() => _ListaReceitasState();
+  State<RecipiesList> createState() => _RecipiesListState();
 }
 
 enum TipoFiltro { Todos, Vegana, Vegetariana }
 
-class _ListaReceitasState extends State<ListaReceitas> {
+class _RecipiesListState extends State<RecipiesList> {
   TipoFiltro _filtroSelecionado = TipoFiltro.Todos;
 
   @override
@@ -39,131 +40,176 @@ class _ListaReceitasState extends State<ListaReceitas> {
         ),
         backgroundColor: Color.fromARGB(255, 27, 156, 133),
         actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MinhasReceitas(
-                    idUsuario: widget.idUsuario,
-                  ),
-                ),
-              );
-            },
-            child: Icon(
-              Icons.receipt,
-              color: Colors.white,
-            ),
-          ),
           Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: PopupMenuButton<TipoFiltro>(
-              icon: Icon(
-                Icons.filter_alt, // Ícone de três pontos
-                color: _filtroSelecionado != TipoFiltro.Todos
-                    ? Colors.white // Cor do ícone quando não está selecionado
-                    : Colors.white, // Cor do ícone quando selecionado
-              ),
-              onSelected: (TipoFiltro result) {
-                setState(() {
-                  _filtroSelecionado = result;
-                });
+            padding: const EdgeInsets.only(right: 15.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => MyRecipies(
+                      idUsuario: widget.idUsuario,
+                    ),
+                  ),
+                );
               },
-              itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry<TipoFiltro>>[
-                PopupMenuItem<TipoFiltro>(
-                  value: TipoFiltro.Todos,
-                  child: Text('Todos'),
-                ),
-                PopupMenuItem<TipoFiltro>(
-                  value: TipoFiltro.Vegana,
-                  child: Text('Vegana'),
-                ),
-                PopupMenuItem<TipoFiltro>(
-                  value: TipoFiltro.Vegetariana,
-                  child: Text('Vegetariana'),
-                ),
-              ],
+              child: Icon(
+                Icons.receipt,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
       ),
-      body: FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance.collection('receitas').get(),
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                'Erro ao carregar dados',
-                style: TextStyle(color: Colors.red),
-              ),
-            );
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(
-              child: Text(
-                'Nenhuma receita encontrada.',
-                style: TextStyle(color: Colors.grey),
-              ),
-            );
-          }
-
-          List<QueryDocumentSnapshot> receitasFiltradas = [];
-
-          // Filtrar as receitas de acordo com o filtro selecionado
-          if (_filtroSelecionado == TipoFiltro.Todos) {
-            receitasFiltradas = snapshot.data!.docs;
-          } else {
-            receitasFiltradas = snapshot.data!.docs.where((doc) {
-              final data = doc.data() as Map<String, dynamic>;
-              if (_filtroSelecionado == TipoFiltro.Vegana) {
-                return data['tipoReceita'] == 'Vegana';
-              } else {
-                return data['tipoReceita'] == 'Vegetariana';
-              }
-            }).toList();
-          }
-
-          return Column(
+      body: Column(
+        children: [
+          SizedBox(height: 16),
+          Text(
+            'Receitas da Comunidade',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              foreground: Paint()..shader = linearGradient,
+            ),
+          ),
+          SizedBox(height: 10),
+          Image(
+            image: AssetImage('images/receitas.png'),
+            height: 80,
+            width: MediaQuery.of(context).size.width,
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(height: 16),
-              Text(
-                'Receitas da Comunidade',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  foreground: Paint()..shader = linearGradient,
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _filtroSelecionado = TipoFiltro.Todos;
+                  });
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    _filtroSelecionado == TipoFiltro.Todos
+                        ? Color.fromARGB(255, 27, 156, 133)
+                        : Colors.grey,
+                  ),
+                ),
+                child: Text(
+                  'Todos',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              SizedBox(height: 10),
-              Image(
-                image: AssetImage('images/receitas.png'),
-                height: 80,
-                width: MediaQuery.of(context).size.width,
-              ),
-              SizedBox(height: 10),
-              Expanded(
-                child: Items(
-                  list: receitasFiltradas,
-                  idUsuario: widget.idUsuario,
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _filtroSelecionado = TipoFiltro.Vegana;
+                  });
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    _filtroSelecionado == TipoFiltro.Vegana
+                        ? Color.fromARGB(255, 27, 156, 133)
+                        : Colors.grey,
+                  ),
+                ),
+                child: Text(
+                  'Vegana',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              Text(
-                'Faça sua parte, adicione uma receita! 😊',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500,
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _filtroSelecionado = TipoFiltro.Vegetariana;
+                  });
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    _filtroSelecionado == TipoFiltro.Vegetariana
+                        ? Color.fromARGB(255, 27, 156, 133)
+                        : Colors.grey,
+                  ),
+                ),
+                child: Text(
+                  'Vegetariana',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .2),
             ],
-          );
-        },
+          ),
+          Expanded(
+            child: FutureBuilder<QuerySnapshot>(
+              future: FirebaseFirestore.instance.collection('receitas').get(),
+              builder: (ctx, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Erro ao carregar dados',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  );
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'Nenhuma receita encontrada.',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  );
+                }
+
+                List<QueryDocumentSnapshot> receitasFiltradas = [];
+
+                // Filtrar as receitas de acordo com o filtro selecionado
+                if (_filtroSelecionado == TipoFiltro.Todos) {
+                  receitasFiltradas = snapshot.data!.docs;
+                } else {
+                  receitasFiltradas = snapshot.data!.docs.where((doc) {
+                    final data = doc.data() as Map<String, dynamic>;
+                    if (_filtroSelecionado == TipoFiltro.Vegana) {
+                      return data['tipoReceita'] == 'Vegana';
+                    } else {
+                      return data['tipoReceita'] == 'Vegetariana';
+                    }
+                  }).toList();
+                }
+
+                return Column(
+                  children: [
+                    SizedBox(height: 10),
+                    Expanded(
+                      child: Items(
+                        list: receitasFiltradas,
+                        idUsuario: widget.idUsuario,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Faça sua parte, adicione uma receita! 😊',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: 80),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 27, 156, 133),
@@ -176,13 +222,14 @@ class _ListaReceitasState extends State<ListaReceitas> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AdicionarReceita(
+              builder: (context) => AddRecipies(
                 idUsuario: widget.idUsuario,
               ),
             ),
           );
         },
       ),
+      bottomNavigationBar: AppBottomTabs(idUsuario: widget.idUsuario),
     );
   }
 }

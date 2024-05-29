@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class InfoVeganismo extends StatelessWidget {
+class InfoVeg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:VeggieDelight/pages/recipes.dart';
+import 'package:VeggieDelight/views/home/home.dart';
 
 Shader linearGradient = LinearGradient(
   colors: <Color>[
@@ -9,16 +9,16 @@ Shader linearGradient = LinearGradient(
   ],
 ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
-class AdicionarReceita extends StatefulWidget {
+class AddRecipies extends StatefulWidget {
   final String idUsuario;
 
-  AdicionarReceita({required this.idUsuario});
+  AddRecipies({required this.idUsuario});
 
   @override
-  _AdicionarReceitaState createState() => _AdicionarReceitaState();
+  _AddRecipiesState createState() => _AddRecipiesState();
 }
 
-class _AdicionarReceitaState extends State<AdicionarReceita> {
+class _AddRecipiesState extends State<AddRecipies> {
   final TextEditingController _nomeController = TextEditingController();
   String _selectedDificuldade = 'Fácil';
   String _selectedNota = '1';
@@ -180,7 +180,7 @@ class _AdicionarReceitaState extends State<AdicionarReceita> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            Recipes(idUsuario: widget.idUsuario),
+                            Home(idUsuario: widget.idUsuario),
                       ),
                     );
                   },

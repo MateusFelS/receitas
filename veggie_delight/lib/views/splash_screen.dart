@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:VeggieDelight/pages/login.dart';
+import 'package:VeggieDelight/views/auth/signin.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
             GestureDetector(
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Login()),
+                MaterialPageRoute(builder: (context) => SignIn()),
               ),
               child: Container(
                 child: Center(

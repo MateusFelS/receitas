@@ -1,6 +1,7 @@
+import 'package:VeggieDelight/widget/app_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:VeggieDelight/pages/recipes.dart';
+import 'package:VeggieDelight/views/home/home.dart';
 
 Shader linearGradient = LinearGradient(
   colors: <Color>[
@@ -9,10 +10,10 @@ Shader linearGradient = LinearGradient(
   ],
 ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
-class MinhasReceitas extends StatelessWidget {
+class MyRecipies extends StatelessWidget {
   final String idUsuario;
 
-  MinhasReceitas({required this.idUsuario});
+  MyRecipies({required this.idUsuario});
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +84,7 @@ class MinhasReceitas extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: AppBottomTabs(idUsuario: idUsuario),
     );
   }
 }
@@ -115,7 +117,7 @@ class Items extends StatelessWidget {
                 delete(docId);
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (BuildContext) => Recipes(
+                    builder: (BuildContext) => Home(
                       idUsuario: idUsuario,
                     ),
                   ),

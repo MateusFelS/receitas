@@ -1,9 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SobreNos extends StatelessWidget {
+class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,18 +11,17 @@ class SobreNos extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.white, // Cor branca para o título
+            color: Colors.white,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 27, 156,
-            133), // Cor verde personalizada para a barra de navegação
+        backgroundColor: Color.fromARGB(255, 27, 156, 133),
       ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Card(
-              elevation: 5, // Adicionando elevação ao Card
+              elevation: 5,
               shadowColor: Colors.grey.withOpacity(0.5),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -33,7 +30,7 @@ class SobreNos extends StatelessWidget {
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.white, // Cor de fundo do container
+                  color: Colors.white,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -64,8 +61,7 @@ class SobreNos extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(
-                              255, 27, 156, 133), // Cor verde personalizada
+                          color: Color.fromARGB(255, 27, 156, 133),
                         ),
                       ),
                       SizedBox(height: 10),
@@ -85,8 +81,10 @@ class SobreNos extends StatelessWidget {
                           color: Color.fromARGB(255, 27, 156, 133),
                         ),
                       ),
-                      IconButton(
-                        icon: Row(
+                      SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () => _launchURL('tel:14997692248'),
+                        child: Row(
                           children: [
                             Icon(
                               Icons.tablet_android_rounded,
@@ -104,10 +102,12 @@ class SobreNos extends StatelessWidget {
                             ),
                           ],
                         ),
-                        onPressed: () => _launchURL('tel:14997692248'),
                       ),
-                      IconButton(
-                        icon: Row(
+                      SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () =>
+                            _launchURL('https://github.com/MateusFelS'),
+                        child: Row(
                           children: [
                             Icon(
                               Icons.computer,
@@ -125,9 +125,7 @@ class SobreNos extends StatelessWidget {
                             ),
                           ],
                         ),
-                        onPressed: () =>
-                            _launchURL('https://github.com/MateusFelS'),
-                      )
+                      ),
                     ],
                   ),
                 ),

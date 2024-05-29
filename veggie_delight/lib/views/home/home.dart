@@ -1,9 +1,10 @@
-import 'package:VeggieDelight/pages/info_veganismo.dart';
-import 'package:VeggieDelight/pages/login.dart';
-import 'package:VeggieDelight/pages/sobre_nos.dart';
+import 'package:VeggieDelight/views/help_and_contacts/info_veg.dart';
+import 'package:VeggieDelight/views/auth/signin.dart';
+import 'package:VeggieDelight/views/help_and_contacts/about_us.dart';
+import 'package:VeggieDelight/widget/app_bottom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:VeggieDelight/pages/lista_receitas.dart';
+import 'package:VeggieDelight/views/recipies_management/recipies_list.dart';
 
 Shader linearGradient = LinearGradient(
   colors: <Color>[
@@ -12,19 +13,18 @@ Shader linearGradient = LinearGradient(
   ],
 ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
-class Recipes extends StatefulWidget {
+class Home extends StatefulWidget {
   final String idUsuario;
 
-  Recipes({required this.idUsuario});
+  Home({required this.idUsuario});
 
   @override
-  State<Recipes> createState() => _RecipesState();
+  State<Home> createState() => _HomeState();
 }
 
 enum TipoFiltro { SobreNos, InfoVeg, Sair }
 
-class _RecipesState extends State<Recipes> {
-  TipoFiltro _filtroSelecionado = TipoFiltro.SobreNos;
+class _HomeState extends State<Home> {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void _onPopupMenuItemSelected(TipoFiltro result) {
@@ -32,20 +32,20 @@ class _RecipesState extends State<Recipes> {
       case TipoFiltro.SobreNos:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SobreNos()),
+          MaterialPageRoute(builder: (context) => AboutUs()),
         );
         break;
       case TipoFiltro.InfoVeg:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => InfoVeganismo()),
+          MaterialPageRoute(builder: (context) => InfoVeg()),
         );
         break;
       case TipoFiltro.Sair:
         _auth.signOut();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Login()),
+          MaterialPageRoute(builder: (context) => SignIn()),
         );
         break;
     }
@@ -138,6 +138,8 @@ class _RecipesState extends State<Recipes> {
                     'Receitas populares',
                     style: TextStyle(
                       fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 27, 156, 133),
                     ),
                   ),
                 ),
@@ -161,13 +163,43 @@ class _RecipesState extends State<Recipes> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0, left: 30.0),
+                  child: const Text(
+                    'Novas Receitas',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 27, 156, 133),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        buildRecipeContainer(
+                            'Ratatouille', 'images/ratatouille.jpg'),
+                        SizedBox(width: 10),
+                        buildRecipeContainer('Lasanha', 'images/lasanha.jpg'),
+                        SizedBox(width: 10),
+                        buildRecipeContainer(
+                            'Purê de Abóbora', 'images/pure_abobora.jpg'),
+                      ],
+                    ),
+                  ),
+                ),
                 SizedBox(height: 30),
                 Center(
                   child: GestureDetector(
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ListaReceitas(
+                          builder: (context) => RecipiesList(
                                 idUsuario: widget.idUsuario,
                               )),
                     ),
@@ -206,11 +238,15 @@ class _RecipesState extends State<Recipes> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                )
               ],
             ),
           ],
         ),
       ),
+      bottomNavigationBar: AppBottomTabs(idUsuario: widget.idUsuario),
     );
   }
 
@@ -230,15 +266,15 @@ class _RecipesState extends State<Recipes> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
-              width: double.infinity, // Para ocupar a largura total
+              width: double.infinity,
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              color: Colors.black.withOpacity(0.5), // Cor preta com opacidade
+              color: Colors.black.withOpacity(0.5),
               child: Text(
                 recipeName,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white, // Alterar para branco
+                  color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
               ),

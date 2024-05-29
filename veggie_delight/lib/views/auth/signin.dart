@@ -1,46 +1,55 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:VeggieDelight/pages/login.dart';
+import 'package:flutter/material.dart';
+import 'package:VeggieDelight/views/home/home.dart';
+import 'package:VeggieDelight/views/auth/signup.dart';
 import 'package:VeggieDelight/services/firebase_auth_services.dart';
 
-class Registro extends StatefulWidget {
-  const Registro({Key? key}) : super(key: key);
+Shader linearGradient = LinearGradient(
+  colors: <Color>[
+    Color.fromARGB(255, 27, 156, 133),
+    Color.fromARGB(255, 27, 133, 156)
+  ],
+).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
+class SignIn extends StatefulWidget {
   @override
-  _RegistroState createState() => _RegistroState();
+  _SignInState createState() => _SignInState();
 }
 
-class _RegistroState extends State<Registro> {
+class _SignInState extends State<SignIn> {
   final FirebaseAuthServices _auth = FirebaseAuthServices();
 
-  final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
 
+  bool _signinError = false;
+
   @override
   void dispose() {
-    _nomeController.dispose();
     _emailController.dispose();
     _senhaController.dispose();
     super.dispose();
   }
 
-  void _signup() async {
-    String nome = _nomeController.text;
+  void _signin() async {
     String email = _emailController.text;
     String senha = _senhaController.text;
 
-    User? user = await _auth.signUp(nome, email, senha);
+    User? user = await _auth.signIn(email, senha);
 
     if (user != null) {
-      print("Usuario criado com sucesso!");
+      print("Usuario logado com sucesso!");
+      String currentUserUid = user.uid;
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (BuildContext context) => Login(),
+          builder: (BuildContext context) => Home(idUsuario: currentUserUid),
         ),
       );
     } else {
       print("Ocorreu algum erro!");
+      setState(() {
+        _signinError = true;
+      });
     }
   }
 
@@ -50,7 +59,7 @@ class _RegistroState extends State<Registro> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 27, 156, 133),
         title: Text(
-          'Registro',
+          "Login",
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -64,18 +73,19 @@ class _RegistroState extends State<Registro> {
           child: SingleChildScrollView(
             child: Card(
               elevation: 5,
+              shadowColor: Colors.grey.withOpacity(1),
               color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: SingleChildScrollView(
+              child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Crie sua conta',
+                      'Faça seu login',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -89,44 +99,29 @@ class _RegistroState extends State<Registro> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                          image: AssetImage('images/registro_icon.png'),
+                          image: AssetImage('images/login_icon.png'),
                           fit: BoxFit.contain,
                         ),
                       ),
                     ),
                     SizedBox(height: 10),
                     TextField(
-                      controller: _nomeController,
-                      decoration: InputDecoration(
-                        labelText: 'Nome',
-                      ),
-                    ),
-                    TextField(
                       controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                      ),
+                      decoration: InputDecoration(labelText: "Email"),
                     ),
+                    SizedBox(height: 16.0),
                     TextField(
                       controller: _senhaController,
                       obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Senha',
-                      ),
-                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(labelText: "Senha"),
                     ),
                     SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: () {
-                        _signup();
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => Login(),
-                          ),
-                        );
+                        _signin();
                       },
                       child: Text(
-                        'Finalizar Registro',
+                        'Fazer Login',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -136,9 +131,27 @@ class _RegistroState extends State<Registro> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        minimumSize: Size(
-                            MediaQuery.of(context).size.width * .9,
-                            50), // tamanho mínimo
+                        minimumSize:
+                            Size(MediaQuery.of(context).size.width * .9, 50),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    _signinError
+                        ? Text(
+                            'Email ou senha incorretos!',
+                            style: TextStyle(color: Colors.red),
+                          )
+                        : SizedBox(),
+                    TextButton(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUp()),
+                      ),
+                      child: Text(
+                        'Não possui cadastro? Clique aqui!',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 27, 156, 133),
+                        ),
                       ),
                     ),
                   ],

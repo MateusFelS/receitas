@@ -1,56 +1,46 @@
-import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:VeggieDelight/pages/recipes.dart';
-import 'package:VeggieDelight/pages/registro.dart';
-import '../services/firebase_auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:VeggieDelight/views/auth/signin.dart';
+import 'package:VeggieDelight/services/firebase_auth_services.dart';
 
-Shader linearGradient = LinearGradient(
-  colors: <Color>[
-    Color.fromARGB(255, 27, 156, 133),
-    Color.fromARGB(255, 27, 133, 156)
-  ],
-).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
-class Login extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _LoginState extends State<Login> {
+class _SignUpState extends State<SignUp> {
   final FirebaseAuthServices _auth = FirebaseAuthServices();
 
+  final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
 
-  bool _loginError = false;
-
   @override
   void dispose() {
+    _nomeController.dispose();
     _emailController.dispose();
     _senhaController.dispose();
     super.dispose();
   }
 
-  void _signin() async {
+  void _signup() async {
+    String nome = _nomeController.text;
     String email = _emailController.text;
     String senha = _senhaController.text;
 
-    User? user = await _auth.signIn(email, senha);
+    User? user = await _auth.signUp(nome, email, senha);
 
     if (user != null) {
-      print("Usuario logado com sucesso!");
-      String currentUserUid = user.uid; // Obter o UID do usuário logado
+      print("Usuario criado com sucesso!");
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (BuildContext context) => Recipes(idUsuario: currentUserUid),
+          builder: (BuildContext context) => SignIn(),
         ),
       );
     } else {
       print("Ocorreu algum erro!");
-      setState(() {
-        _loginError = true; // Definir a variável de erro como verdadeira
-      });
     }
   }
 
@@ -60,7 +50,7 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 27, 156, 133),
         title: Text(
-          "Login",
+          'Registro',
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -74,19 +64,18 @@ class _LoginState extends State<Login> {
           child: SingleChildScrollView(
             child: Card(
               elevation: 5,
-              shadowColor: Colors.grey.withOpacity(1),
               color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Faça seu login',
+                      'Crie sua conta',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -100,29 +89,44 @@ class _LoginState extends State<Login> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                          image: AssetImage('images/login_icon.png'),
+                          image: AssetImage('images/registro_icon.png'),
                           fit: BoxFit.contain,
                         ),
                       ),
                     ),
                     SizedBox(height: 10),
                     TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(labelText: "Email"),
+                      controller: _nomeController,
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                      ),
                     ),
-                    SizedBox(height: 16.0),
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                      ),
+                    ),
                     TextField(
                       controller: _senhaController,
                       obscureText: true,
-                      decoration: InputDecoration(labelText: "Senha"),
+                      decoration: InputDecoration(
+                        labelText: 'Senha',
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
                     SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: () {
-                        _signin();
+                        _signup();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => SignIn(),
+                          ),
+                        );
                       },
                       child: Text(
-                        'Fazer Login',
+                        'Finalizar Registro',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -135,25 +139,6 @@ class _LoginState extends State<Login> {
                         minimumSize: Size(
                             MediaQuery.of(context).size.width * .9,
                             50), // tamanho mínimo
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    _loginError
-                        ? Text(
-                            'Email ou senha incorretos!',
-                            style: TextStyle(color: Colors.red),
-                          )
-                        : SizedBox(),
-                    TextButton(
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Registro()),
-                      ),
-                      child: Text(
-                        'Não possui cadastro? Clique aqui!',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 27, 156, 133),
-                        ),
                       ),
                     ),
                   ],
