@@ -29,13 +29,14 @@ Oferecer uma plataforma prática para o registro e a consulta de receitas, incen
 - **Dispositivo Android ou iOS**: Certifique-se de que seu celular é compatível.
 - **Passo a passo para instalação**:
 
-1. Clone ou baixe o repositório.
-
-2. Abra o projeto no Visual Studio Code ou outro editor de sua preferência.
-
-3. Execute o comando:
-
-  ```bash
-  flutter build apk
-
-4. Instale o arquivo gerado no dispositivo móvel.
+    1. Clone ou baixe o repositório.
+    
+    2. Abra o projeto no Visual Studio Code ou outro editor de sua preferência.
+    
+    3. Execute o comando:
+    
+      ```bash
+      flutter build apk
+      ```
+    
+    4. Instale o arquivo gerado no dispositivo móvel.
